@@ -1,0 +1,53 @@
+object fmMain: TfmMain
+  Left = 659
+  Height = 240
+  Top = 302
+  Width = 320
+  Caption = 'fmMain'
+  ClientHeight = 240
+  ClientWidth = 320
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  LCLVersion = '0.9.31'
+  WindowState = wsMaximized
+  object StatusBar: TStatusBar
+    Left = 0
+    Height = 21
+    Top = 219
+    Width = 320
+    Panels = <>
+  end
+  object PaintBox: TPaintBox
+    Left = 0
+    Height = 219
+    Top = 0
+    Width = 320
+    Align = alClient
+    Color = clWhite
+    ParentColor = False
+    OnMouseDown = PaintBoxMouseDown
+    OnMouseMove = PaintBoxMouseMove
+    OnMouseEnter = PaintBoxMouseEnter
+  end
+  object ActionList: TActionList
+    left = 136
+    top = 36
+    object acAbout: TAction
+      Caption = 'acAbout'
+      OnExecute = acAboutExecute
+      ShortCut = 112
+    end
+    object acClear: TAction
+      Caption = 'acClear'
+      OnExecute = acClearExecute
+      ShortCut = 32
+    end
+    object acClose: TAction
+      Caption = 'acClose'
+      OnExecute = acCloseExecute
+      ShortCut = 27
+    end
+  end
+end
