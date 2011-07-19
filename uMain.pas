@@ -97,6 +97,7 @@ begin
   fLastPoint:= Point(0,0);
   fOptions:= TOptions.Create(GetAppConfigFile(False));
   fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'images');
+  fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'img');
   fPathColor:= TRainbowColorPallete.Create;
   fStarColor:= TRandomWebSafeColorPallete.Create;
   MyCanvas:= PaintBox.Canvas;

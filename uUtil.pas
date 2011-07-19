@@ -62,12 +62,6 @@ const
   c_BackgroundColor = clWhite;
   c_PathType = ptCircle;
 
-procedure TOptions.AddImagePath(AImagePath: string);
-begin
-  if DirectoryExists(AImagePath) then
-    fImagePaths.Add(AImagePath);
-end;
-
 constructor TOptions.Create(AFileName: string);
 begin
   Create;
@@ -78,6 +72,7 @@ constructor TOptions.Create;
 begin
   inherited Create;
   fImagePaths:= TStringList.Create;
+  fImagePaths.NameValueSeparator:= '=';
   StarReciprocalRadius:= c_StarReciprocalRadius;
   OuterRadius:= c_OuterRadius;
   PathWidth:= c_PathWidth;
@@ -102,6 +97,7 @@ end;
 procedure TOptions.LoadFromFile(AFileName: string);
 var
   IniFile: TIniFile;
+  i: Integer;
 begin
   IniFile:= TIniFile.Create(AFileName);
   try
@@ -111,6 +107,9 @@ begin
     PathWidth:= IniFile.ReadInteger('Path','Width',PathWidth);
     PathType:= TPathType(IniFile.ReadInteger('Path','Type',Integer(PathType)));
     BackgroundColor:= TColor(IniFile.ReadInteger('Main','BackgroundColor',Integer(BackgroundColor)));
+    IniFile.ReadSectionValues('ImagePath',fImagePaths);
+    for i:= 0 to (fImagePaths.Count-1) do
+      fImagePaths[i]:= fImagePaths.ValueFromIndex[i];
   finally
     IniFile.Free;
   end;
@@ -119,6 +118,7 @@ end;
 procedure TOptions.SaveToFile(AFileName: string);
 var
   IniFile: TIniFile;
+  i: Integer;
 begin
   IniFile:= TIniFile.Create(AFileName);
   try
@@ -128,10 +128,21 @@ begin
     IniFile.WriteInteger('Path','Width',PathWidth);
     IniFile.WriteInteger('Path','Type',Integer(PathType));
     IniFile.WriteInteger('Main','BackgroundColor',Integer(BackgroundColor));
+    for i:= 0 to (fImagePaths.Count-1) do
+      IniFile.WriteString('ImagePath','ImagePath' + IntToStr(i+1),fImagePaths[i]);
   finally
     IniFile.Free;
   end;
+end;
 
+
+procedure TOptions.AddImagePath(AImagePath: string);
+begin
+  if fImagePaths.IndexOf(AImagePath) >= 0 then exit;
+  if not DirectoryExists(AImagePath) then exit;
+
+  fImagePaths.Add(AImagePath);
+  fChanged:= True;
 end;
 
 procedure TOptions.SetBackgroundColor(const AValue: TColor);
