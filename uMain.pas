@@ -35,7 +35,6 @@ type
     Images: TFPList;
     fLastPoint: TPoint;
     fOptions: TOptions;
-    fImagesPath: string;
     fPathColor: TColorPallete;
     fStarColor: TColorPallete;
     MyCanvas: TCanvas;
@@ -97,7 +96,7 @@ begin
   Images:= TFPList.Create;
   fLastPoint:= Point(0,0);
   fOptions:= TOptions.Create(GetAppConfigFile(False));
-  fImagesPath:= ExtractFilePath(Application.EXEName) + 'images';
+  fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'images');
   fPathColor:= TRainbowColorPallete.Create;
   fStarColor:= TRandomWebSafeColorPallete.Create;
   MyCanvas:= PaintBox.Canvas;
@@ -134,13 +133,14 @@ end;
 procedure TfmMain.GetImages;
 var
   fs: TFileSearcher;
+  i: Integer;
 begin
-
   fs:= TFileSearcher.Create;
   try
     fs.OnFileFound:= @OnFileFound;
     Images.Clear;
-    fs.Search(fImagesPath);     //TODO: search only image files -> image extensions
+    for i:= 0 to (fOptions.ImagePaths.Count - 1) do
+      fs.Search(fOptions.ImagePaths[i]);     //TODO: search only image files -> image extensions
   finally
     fs.Free;
   end;
@@ -174,11 +174,17 @@ end;
 
 procedure TfmMain.PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var
+  nStarTypes, nImageTypes: Integer;
+  DrawingType: Integer;
 begin
-  case Random(2) of
-    0: DrawStar(Point(X,Y), Random(fOptions.StarSpikes - 2) + 3);
-    1: DrawImage(Point(X,Y), Random(Images.Count));
-  end;
+  nStarTypes:= fOptions.StarSpikes - 2;
+  nImageTypes:= Images.Count;
+  DrawingType:= Random(nStarTypes + nImageTypes); //every star and image has the same probability
+  if DrawingType < nStarTypes then
+    DrawStar(Point(X,Y), Random(nStarTypes) + 3)
+  else
+    DrawImage(Point(X,Y), Random(nImageTypes));
 end;
 
 procedure TfmMain.DrawPath(LastPoint, CurrentPoint: TPoint);

@@ -17,11 +17,13 @@ type
     private
       fBackgroundColor: TColor;
       fChanged: Boolean;
+      fImagePaths: TStringList;
       fOuterRadius: Integer;
       fPathType: TPathType;
       fPathWidth: Integer;
       fStarReciprocalRadius: Integer;
       fStarSpikes: Integer;
+      function GetImagePaths: TStringList;
       procedure SetBackgroundColor(const AValue: TColor);
       procedure SetOuterRadius(const AValue: Integer);
       procedure SetPathType(const AValue: TPathType);
@@ -34,6 +36,7 @@ type
       destructor Destroy; override;
       procedure LoadFromFile(AFileName: string);
       procedure SaveToFile(AFileName: string);
+      procedure AddImagePath(AImagePath: string);
       property Changed: Boolean read fChanged write fChanged;
       property StarReciprocalRadius: Integer read fStarReciprocalRadius write SetStarReciprocalRadius;
       property OuterRadius: Integer read fOuterRadius write SetOuterRadius;
@@ -41,6 +44,7 @@ type
       property BackgroundColor: TColor read fBackgroundColor write SetBackgroundColor;
       property PathWidth: Integer read fPathWidth write SetPathWidth;
       property PathType: TPathType read fPathType write SetPathType;
+      property ImagePaths: TStringList read GetImagePaths;
   end;
 
 
@@ -58,6 +62,12 @@ const
   c_BackgroundColor = clWhite;
   c_PathType = ptCircle;
 
+procedure TOptions.AddImagePath(AImagePath: string);
+begin
+  if DirectoryExists(AImagePath) then
+    fImagePaths.Add(AImagePath);
+end;
+
 constructor TOptions.Create(AFileName: string);
 begin
   Create;
@@ -67,6 +77,7 @@ end;
 constructor TOptions.Create;
 begin
   inherited Create;
+  fImagePaths:= TStringList.Create;
   StarReciprocalRadius:= c_StarReciprocalRadius;
   OuterRadius:= c_OuterRadius;
   PathWidth:= c_PathWidth;
@@ -78,8 +89,14 @@ end;
 
 destructor TOptions.Destroy;
 begin
-
+  fImagePaths.Free;
   inherited Destroy;
+end;
+
+function TOptions.GetImagePaths: TStringList;
+begin
+  Result:= TStringList.Create;
+  Result.Assign(fImagePaths);
 end;
 
 procedure TOptions.LoadFromFile(AFileName: string);
