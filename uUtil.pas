@@ -5,7 +5,7 @@ unit uUtil;
 interface
 
 uses
-  Classes, SysUtils, Graphics;
+  Classes, SysUtils, Graphics, uStrings;
 
 type
 
@@ -54,6 +54,17 @@ type
       property ImagePaths: TStringList read GetImagePaths;
   end;
 
+const
+  PathTypeNames: array[TPathType] of string =
+    (s_Circle, s_Line);
+  ColorPalleteTypeNames: array[TColorPalleteType] of string =
+    (s_RandomRainbowColorPallete, s_RainbowColorPallete, s_RandomWebSafeColorPallete);
+
+function GetPathTypeNames: TStringList;
+function GetColorPalleteTypeNames: TStringList;
+
+function GetPathTypeFromName(APathTypeName: string): TPathType;
+function GetColorPalleteTypeFromName(AColorPalleteTypeName: string): TColorPalleteType;
 
 implementation
 
@@ -70,6 +81,50 @@ const
   c_PathType = ptCircle;
   c_PathColorType = cptRainbowColorPallete;
   c_StampColorType = cptRandomWebSafeColorPallete;
+
+function GetPathTypeNames: TStringList;
+var
+  i: TPathType;
+begin
+  Result:= TStringList.Create;
+  for i:= Low(TPathType) to High(TPathType) do
+    Result.Add(PathTypeNames[i]);
+end;
+
+function GetColorPalleteTypeNames: TStringList;
+var
+  i: TColorPalleteType;
+begin
+  Result:= TStringList.Create;
+  for i:= Low(TColorPalleteType) to High(TColorPalleteType) do
+    Result.Add(ColorPalleteTypeNames[i]);
+end;
+
+function GetPathTypeFromName(APathTypeName: string): TPathType;
+var
+  i: TPathType;
+begin
+  for i:= Low(TPathType) to High(TPathType) do
+    if APathTypeName = PathTypeNames[i] then
+      begin
+        Result:= i;
+        Exit;
+      end;
+  raise Exception.Create(s_PathTypeNameNotFound);
+end;
+
+function GetColorPalleteTypeFromName(AColorPalleteTypeName: string): TColorPalleteType;
+var
+  i: TColorPalleteType;
+begin
+  for i:= Low(TColorPalleteType) to High(TColorPalleteType) do
+    if AColorPalleteTypeName = ColorPalleteTypeNames[i] then
+      begin
+        Result:= i;
+        Exit;
+      end;
+  raise Exception.Create('Color Pallete Type Name not found.');
+end;
 
 constructor TOptions.Create(AFileName: string);
 begin

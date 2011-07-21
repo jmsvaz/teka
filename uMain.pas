@@ -55,6 +55,8 @@ implementation
 
 {$R *.lfm}
 
+uses uStrings;
+
 function GetAColorPallete(APalleteType: TColorPalleteType): TColorPallete;
 begin
   case APalleteType of
@@ -125,7 +127,7 @@ begin
       Pen.Style:= psSolid;
       Pen.Width:= 1;
     end;
-  StatusBar.SimpleText:= 'Quit : ESC | Clear : SPACE | About : F1';
+  StatusBar.SimpleText:= Format('%s : ESC | %s : %s | %s : F1',[s_Quit,s_Clear,Upcase(s_SpaceKey),s_About]);
   GetImages;
 end;
 
