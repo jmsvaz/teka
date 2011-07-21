@@ -16,12 +16,14 @@ type
     acAbout: TAction;
     acClear: TAction;
     acClose: TAction;
+    acShowOptions: TAction;
     ActionList: TActionList;
     PaintBox: TPaintBox;
     StatusBar: TStatusBar;
     procedure acAboutExecute(Sender: TObject);
     procedure acClearExecute(Sender: TObject);
     procedure acCloseExecute(Sender: TObject);
+    procedure acShowOptionsExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -42,6 +44,7 @@ type
     procedure OnFileFound(FileIterator: TFileIterator);
   public
     { public declarations }
+    procedure LoadOptions;
     procedure DrawStar(Center: TPoint; spike_count: Integer);
     procedure DrawImage(Center: TPoint; ImageNumber: Integer);
     procedure DrawPath(LastPoint,CurrentPoint: TPoint);
@@ -55,7 +58,7 @@ implementation
 
 {$R *.lfm}
 
-uses uStrings;
+uses uOptions, uStrings;
 
 function GetAColorPallete(APalleteType: TColorPalleteType): TColorPallete;
 begin
@@ -90,6 +93,37 @@ begin
   Close;
 end;
 
+procedure TfmMain.acShowOptionsExecute(Sender: TObject);
+begin
+  with TfmOptions.Create(nil) do
+    try
+      StarReciprocalRadius:= fOptions.StarReciprocalRadius;
+      OuterRadius:= fOptions.OuterRadius;
+      StarSpikes:= fOptions.StarSpikes;
+      BackgroundColor:= fOptions.BackgroundColor;
+      PathWidth:= fOptions.PathWidth;
+      PathType:= fOptions.PathType;
+      PathColorType:= fOptions.PathColorType;
+      StampColorType:= fOptions.StampColorType;
+      ImagePaths:= fOptions.ImagePaths;
+      if Execute then
+        begin
+         fOptions.StarReciprocalRadius:= StarReciprocalRadius;
+         fOptions.OuterRadius:= OuterRadius;
+         fOptions.StarSpikes:= StarSpikes;
+         fOptions.BackgroundColor:= BackgroundColor;
+         fOptions.PathWidth:= PathWidth;
+         fOptions.PathType:= PathType;
+         fOptions.PathColorType:= PathColorType;
+         fOptions.StampColorType:= StampColorType;
+//          fOptions.ImagePaths.Assign(ImagePaths);
+         LoadOptions;
+        end;
+    finally
+      Release;
+    end;
+end;
+
 procedure TfmMain.Test;
 var
   i: Integer;
@@ -112,23 +146,9 @@ begin
   fOptions:= TOptions.Create(GetAppConfigFile(False));
   fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'images');
   fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'img');
-  fPathColor:= GetAColorPallete(fOptions.PathColorType);
-  fStarColor:= GetAColorPallete(fOptions.StampColorType);
   MyCanvas:= PaintBox.Canvas;
-
-  fOptions.PathType:= ptLine;
-  with MyCanvas do
-    begin
-      Color:= fOptions.BackgroundColor;
-      Brush.Style:= bsSolid;
-      Brush.Color:= fOptions.BackgroundColor;
-      Pen.Color:= fOptions.BackgroundColor;
-      Pen.Mode:= pmCopy;
-      Pen.Style:= psSolid;
-      Pen.Width:= 1;
-    end;
-  StatusBar.SimpleText:= Format('%s : ESC | %s : %s | %s : F1',[s_Quit,s_Clear,Upcase(s_SpaceKey),s_About]);
-  GetImages;
+  StatusBar.SimpleText:= Format('%s : ESC | %s : %s | %s : Ctrl+F9 | %s : F1',[s_Quit,s_Clear,Upcase(s_SpaceKey),s_Options,s_About]);
+  LoadOptions;
 end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
@@ -159,6 +179,23 @@ begin
   finally
     fs.Free;
   end;
+end;
+
+procedure TfmMain.LoadOptions;
+begin
+  fPathColor:= GetAColorPallete(fOptions.PathColorType);
+  fStarColor:= GetAColorPallete(fOptions.StampColorType);
+  with MyCanvas do
+    begin
+      Color:= fOptions.BackgroundColor;
+      Brush.Style:= bsSolid;
+      Brush.Color:= fOptions.BackgroundColor;
+      Pen.Color:= fOptions.BackgroundColor;
+      Pen.Mode:= pmCopy;
+      Pen.Style:= psSolid;
+      Pen.Width:= 1;
+    end;
+  GetImages;
 end;
 
 procedure TfmMain.OnFileFound(FileIterator: TFileIterator);

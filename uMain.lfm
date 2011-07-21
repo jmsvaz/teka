@@ -1,5 +1,5 @@
 object fmMain: TfmMain
-  Left = 666
+  Left = 687
   Height = 240
   Top = 302
   Width = 320
@@ -48,6 +48,11 @@ object fmMain: TfmMain
       Caption = 'acClose'
       OnExecute = acCloseExecute
       ShortCut = 27
+    end
+    object acShowOptions: TAction
+      Caption = 'acShowOptions'
+      OnExecute = acShowOptionsExecute
+      ShortCut = 16504
     end
   end
 end

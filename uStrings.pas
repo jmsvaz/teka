@@ -12,7 +12,19 @@ resourcestring
   s_Quit = 'Quit';
   s_Clear = 'Clear';
   s_SpaceKey = 'SPACE';
+  s_Options = 'Options';
   s_About = 'About';
+  s_OK = 'OK';
+  s_Cancel = 'Cancel';
+  s_BackgroundColor = 'Background Color';
+  s_StarReciprocalRadius = 'Star Reciprocal Radius';
+  s_OuterRadius = 'Outer Radius';
+  s_StarSpikes = 'StarSpikes';
+  s_PathWidth = 'PathWidth';
+  s_PathType = 'PathType';
+  s_PathColorType = 'PathColorType';
+  s_StampColorType = 'StampColorType';
+  s_ImagePaths = 'ImagePaths';
 
   s_Circle = 'Circle';
   s_Line   = 'Line';
