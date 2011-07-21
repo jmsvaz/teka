@@ -12,6 +12,7 @@ type
   { TOptions }
 
   TPathType = (ptCircle, ptLine);
+  TColorPalleteType = (cptRandomRainbowColorPallete, cptRainbowColorPallete, cptRandomWebSafeColorPallete);
 
   TOptions = class
     private
@@ -19,15 +20,19 @@ type
       fChanged: Boolean;
       fImagePaths: TStringList;
       fOuterRadius: Integer;
+      fPathColorType: TColorPalleteType;
       fPathType: TPathType;
       fPathWidth: Integer;
+      fStampColorType: TColorPalleteType;
       fStarReciprocalRadius: Integer;
       fStarSpikes: Integer;
       function GetImagePaths: TStringList;
       procedure SetBackgroundColor(const AValue: TColor);
       procedure SetOuterRadius(const AValue: Integer);
+      procedure SetPathColorType(AValue: TColorPalleteType);
       procedure SetPathType(const AValue: TPathType);
       procedure SetPathWidth(const AValue: Integer);
+      procedure SetStampColorType(AValue: TColorPalleteType);
       procedure SetStarReciprocalRadius(const AValue: Integer);
       procedure SetStarSpikes(const AValue: Integer);
     public
@@ -44,6 +49,8 @@ type
       property BackgroundColor: TColor read fBackgroundColor write SetBackgroundColor;
       property PathWidth: Integer read fPathWidth write SetPathWidth;
       property PathType: TPathType read fPathType write SetPathType;
+      property PathColorType: TColorPalleteType read fPathColorType write SetPathColorType;
+      property StampColorType: TColorPalleteType read fStampColorType write SetStampColorType;
       property ImagePaths: TStringList read GetImagePaths;
   end;
 
@@ -61,6 +68,8 @@ const
   c_StarSpikes = 12;
   c_BackgroundColor = clWhite;
   c_PathType = ptCircle;
+  c_PathColorType = cptRainbowColorPallete;
+  c_StampColorType = cptRandomWebSafeColorPallete;
 
 constructor TOptions.Create(AFileName: string);
 begin
@@ -77,7 +86,9 @@ begin
   OuterRadius:= c_OuterRadius;
   PathWidth:= c_PathWidth;
   PathType:= c_PathType;
+  PathColorType:= c_PathColorType;
   StarSpikes:= c_StarSpikes;
+  StampColorType:= c_StampColorType;
   BackgroundColor:= c_BackgroundColor;
   Changed:= False;
 end;
@@ -104,8 +115,10 @@ begin
     StarReciprocalRadius:= IniFile.ReadInteger('Stamp','StarReciprocalRadius',StarReciprocalRadius);
     OuterRadius:= IniFile.ReadInteger('Stamp','OuterRadius',OuterRadius);
     StarSpikes:= IniFile.ReadInteger('Stamp','StarSpikes',StarSpikes);
+    StampColorType:= TColorPalleteType(IniFile.ReadInteger('Stamp','StampColorType',Integer(StampColorType)));
     PathWidth:= IniFile.ReadInteger('Path','Width',PathWidth);
     PathType:= TPathType(IniFile.ReadInteger('Path','Type',Integer(PathType)));
+    PathColorType:= TColorPalleteType(IniFile.ReadInteger('Path','PathColorType',Integer(PathColorType)));
     BackgroundColor:= TColor(IniFile.ReadInteger('Main','BackgroundColor',Integer(BackgroundColor)));
     IniFile.ReadSectionValues('ImagePath',fImagePaths);
     for i:= 0 to (fImagePaths.Count-1) do
@@ -125,8 +138,10 @@ begin
     IniFile.WriteInteger('Stamp','StarReciprocalRadius',StarReciprocalRadius);
     IniFile.WriteInteger('Stamp','OuterRadius',OuterRadius);
     IniFile.WriteInteger('Stamp','Spikes',StarSpikes);
+    IniFile.WriteInteger('Stamp','StampColorType',Integer(StampColorType));
     IniFile.WriteInteger('Path','Width',PathWidth);
     IniFile.WriteInteger('Path','Type',Integer(PathType));
+    IniFile.WriteInteger('Path','PathColorType',Integer(PathColorType));
     IniFile.WriteInteger('Main','BackgroundColor',Integer(BackgroundColor));
     for i:= 0 to (fImagePaths.Count-1) do
       IniFile.WriteString('ImagePath','ImagePath' + IntToStr(i+1),fImagePaths[i]);
@@ -159,6 +174,13 @@ begin
   fChanged:= True;
 end;
 
+procedure TOptions.SetPathColorType(AValue: TColorPalleteType);
+begin
+  if fPathColorType = AValue then exit;
+  fPathColorType:= AValue;
+  fChanged:= True;
+end;
+
 procedure TOptions.SetPathType(const AValue: TPathType);
 begin
   if fPathType = AValue then exit;
@@ -170,6 +192,13 @@ procedure TOptions.SetPathWidth(const AValue: Integer);
 begin
   if fPathWidth = AValue then exit;
   fPathWidth:= AValue;
+  fChanged:= True;
+end;
+
+procedure TOptions.SetStampColorType(AValue: TColorPalleteType);
+begin
+  if fStampColorType = AValue then exit;
+  fStampColorType:= AValue;
   fChanged:= True;
 end;
 

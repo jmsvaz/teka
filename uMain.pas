@@ -55,6 +55,18 @@ implementation
 
 {$R *.lfm}
 
+function GetAColorPallete(APalleteType: TColorPalleteType): TColorPallete;
+begin
+  case APalleteType of
+    cptRandomRainbowColorPallete:
+      Result:= TRandomRainbowColorPallete.Create;
+    cptRainbowColorPallete:
+      Result:= TRainbowColorPallete.Create;
+    cptRandomWebSafeColorPallete:
+      Result:= TRandomWebSafeColorPallete.Create;
+  end;
+end;
+
 { TfmMain }
 
 procedure TfmMain.acAboutExecute(Sender: TObject);
@@ -98,8 +110,8 @@ begin
   fOptions:= TOptions.Create(GetAppConfigFile(False));
   fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'images');
   fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'img');
-  fPathColor:= TRainbowColorPallete.Create;
-  fStarColor:= TRandomWebSafeColorPallete.Create;
+  fPathColor:= GetAColorPallete(fOptions.PathColorType);
+  fStarColor:= GetAColorPallete(fOptions.StampColorType);
   MyCanvas:= PaintBox.Canvas;
 
   fOptions.PathType:= ptLine;
