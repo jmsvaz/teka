@@ -1,0 +1,10 @@
+/*.bak
+/*.lps
+/*.res
+/*.o
+/*.ppu
+/*.or
+/*.dbg
+/*.compiled
+lib
+backup

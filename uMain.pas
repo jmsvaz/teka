@@ -17,6 +17,7 @@ type
     acClear: TAction;
     acClose: TAction;
     acShowOptions: TAction;
+    acToggleFullscreen: TAction;
     ActionList: TActionList;
     PaintBox: TPaintBox;
     StatusBar: TStatusBar;
@@ -24,6 +25,7 @@ type
     procedure acClearExecute(Sender: TObject);
     procedure acCloseExecute(Sender: TObject);
     procedure acShowOptionsExecute(Sender: TObject);
+    procedure acToggleFullscreenExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -40,6 +42,10 @@ type
     fPathColor: TColorPallete;
     fStarColor: TColorPallete;
     MyCanvas: TCanvas;
+    OriginalBounds: TRect;
+    OriginalWindowState: TWindowState;
+    ScreenBounds: TRect;
+    procedure SwitchFullScreen;
     procedure GetImages;
     procedure OnFileFound(FileIterator: TFileIterator);
   public
@@ -124,6 +130,33 @@ begin
     end;
 end;
 
+procedure TfmMain.acToggleFullscreenExecute(Sender: TObject);
+begin
+  if BorderStyle <> bsNone then begin
+    // To full screen
+    OriginalWindowState := WindowState;
+    OriginalBounds := BoundsRect;
+
+    BorderStyle := bsNone;
+    ScreenBounds := Screen.MonitorFromWindow(Handle).BoundsRect;
+    with ScreenBounds do
+      SetBounds(Left, Top, Right - Left, Bottom - Top) ;
+  end else begin
+    // From full screen
+    {$IFDEF MSWINDOWS}
+    BorderStyle := bsSizeable;
+    {$ENDIF}
+    if OriginalWindowState = wsMaximized then
+      WindowState := wsMaximized
+    else
+      with OriginalBounds do
+        SetBounds(Left, Top, Right - Left, Bottom - Top) ;
+    {$IFDEF LINUX}
+    BorderStyle := bsSizeable;
+    {$ENDIF}
+  end;
+end;
+
 procedure TfmMain.Test;
 var
   i: Integer;
@@ -147,7 +180,7 @@ begin
   fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'images');
   fOptions.AddImagePath(ExtractFilePath(Application.EXEName) + 'img');
   MyCanvas:= PaintBox.Canvas;
-  StatusBar.SimpleText:= Format('%s : ESC | %s : %s | %s : Ctrl+F9 | %s : F1',[s_Quit,s_Clear,Upcase(s_SpaceKey),s_Options,s_About]);
+  StatusBar.SimpleText:= Format('%s : ESC | %s : %s | %s : Ctrl+F9 | %s : F11 | %s : F1',[s_Quit,s_Clear,Upcase(s_SpaceKey),s_Options,s_ToggleFullscreen, s_About]);
   LoadOptions;
 end;
 
@@ -221,6 +254,11 @@ procedure TfmMain.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState; X,
 begin
   DrawPath(fLastPoint, Point(X,Y));
   fLastPoint:= Point(X,Y);
+end;
+
+procedure TfmMain.SwitchFullScreen;
+begin
+
 end;
 
 

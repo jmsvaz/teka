@@ -13,6 +13,7 @@ resourcestring
   s_Clear = 'Clear';
   s_SpaceKey = 'SPACE';
   s_Options = 'Options';
+  s_ToggleFullscreen = 'Toggle Full Screen';
   s_About = 'About';
   s_OK = 'OK';
   s_Cancel = 'Cancel';
