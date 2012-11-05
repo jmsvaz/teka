@@ -6,11 +6,11 @@ Teka is a drawing game for very young children who will discover mouse moving. A
 
 Teka runs on Linux and Windows.
 
-This game is a Lazarus port of Gamine (http://gnunux.info/projets/gamine/README.html) as Gamine only runs on Linux.
+This game is a Lazarus port of [Gamine] (http://gnunux.info/projets/gamine/README.html) as Gamine only runs on Linux.
 
 ## License
 
-Copyright (C) 2010-2012 João Marcelo S. Vaz
+Copyright (C) 2011-2012 João Marcelo S. Vaz
 
 Teka is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
