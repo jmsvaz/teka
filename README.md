@@ -4,9 +4,11 @@
 
 Teka is a drawing game for very young children who will discover mouse moving. As the mouse moves, a coloured line is draw and, when they click the mouse buttons, shapes and images are inserted. Since it runs in full screen, this kind of application typically avoids children from involuntarily losing focus.
 
-Teka runs on Linux and Windows.
+Teka runs on Linux and Windows. 
 
-This game is a Lazarus port of [Gamine] (http://gnunux.info/projets/gamine/README.html) as Gamine only runs on Linux.
+## History
+
+This game is a Lazarus port of [Gamine] (http://gnunux.info/projets/gamine/README.html) as Gamine only runs on Linux and I needed an Windows version.
 
 ## License
 
