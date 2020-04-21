@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -13,15 +13,9 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="4">
       <Item1 Name="default" Default="True"/>
       <Item2 Name="x86_64 Linux GTK2">
-        <MacroValues Count="1">
-          <Macro1 Name="LCLWidgetType" Value="gtk2"/>
-        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <SearchPaths>
@@ -56,18 +50,10 @@
               <ShowDebugInfo Value="True"/>
               <ShowUsedFiles Value="True"/>
             </Verbosity>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
           </Other>
-          <LCLWidgetType Value="gtk2"/>
         </CompilerOptions>
       </Item2>
       <Item3 Name="x86_64 Linux QT4">
-        <MacroValues Count="1">
-          <Macro1 Name="LCLWidgetType" Value="qt"/>
-        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <SearchPaths>
@@ -102,18 +88,10 @@
               <ShowDebugInfo Value="True"/>
               <ShowUsedFiles Value="True"/>
             </Verbosity>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
           </Other>
-          <LCLWidgetType Value="qt"/>
         </CompilerOptions>
       </Item3>
       <Item4 Name="Win32 Win32">
-        <MacroValues Count="1">
-          <Macro1 Name="LCLWidgetType" Value="win32"/>
-        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <SearchPaths>
@@ -148,25 +126,25 @@
               <ShowDebugInfo Value="True"/>
               <ShowUsedFiles Value="True"/>
             </Verbosity>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
           </Other>
-          <LCLWidgetType Value="win32"/>
         </CompilerOptions>
       </Item4>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
-      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
     </PublishOptions>
     <RunParams>
       <local>
-        <FormatVersion Value="1"/>
         <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+          </local>
+        </Mode0>
+      </Modes>
     </RunParams>
     <RequiredPackages Count="2">
       <Item1>
@@ -181,7 +159,6 @@
       <Unit0>
         <Filename Value="teka.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="teka"/>
       </Unit0>
       <Unit1>
         <Filename Value="uMain.pas"/>
@@ -190,22 +167,18 @@
         <ComponentName Value="fmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uMain"/>
       </Unit1>
       <Unit2>
         <Filename Value="uUtil.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uUtil"/>
       </Unit2>
       <Unit3>
         <Filename Value="uColors.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uColors"/>
       </Unit3>
       <Unit4>
         <Filename Value="uStrings.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uStrings"/>
       </Unit4>
       <Unit5>
         <Filename Value="uOptions.pas"/>
@@ -213,7 +186,6 @@
         <DisableI18NForLFM Value="True"/>
         <ComponentName Value="fmOptions"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uOptions"/>
       </Unit5>
     </Units>
   </ProjectOptions>
@@ -248,10 +220,6 @@
         <ShoLineNum Value="True"/>
         <ShowDebugInfo Value="True"/>
       </Verbosity>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
   <Debugging>
